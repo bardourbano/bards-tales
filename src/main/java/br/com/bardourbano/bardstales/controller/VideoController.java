@@ -1,5 +1,7 @@
 package br.com.bardourbano.bardstales.controller;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.MediaType;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bardourbano.bardstales.model.Video;
 import br.com.bardourbano.bardstales.repository.VideoRepository;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,7 +45,8 @@ public class VideoController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Video store(@RequestBody Video video) {
-        return repository.save(video);
+        video = repository.saveAndFlush(video);
+        return repository.findById(video.getId()).get();
     }
 
     /**
@@ -60,6 +64,7 @@ public class VideoController {
                     record.setUrl(video.getUrl());
 
                     Video updatedVideo = repository.save(record);
+                    updatedVideo.setUpdated_at(Timestamp.valueOf(LocalDateTime.now()));
 
                     return ResponseEntity.ok().body(updatedVideo);
                 })
@@ -70,20 +75,33 @@ public class VideoController {
     public ResponseEntity<?> patchUpdate(@PathVariable long id, @RequestBody Video video) {
         return repository.findById(id)
                 .map(record -> {
-                    if (!(video.getTitulo().isEmpty() || video.getTitulo() == record.getTitulo())) {
+                    if (
+                        video.getTitulo() != null &&
+                        video.getTitulo().length() > 0 &&
+                        !video.getTitulo().equals(record.getTitulo())
+                    ) {
                         record.setTitulo(video.getTitulo());
                     }
 
-                    if (!(video.getDescricao().isEmpty() || video.getDescricao() == record.getDescricao())) {
+                    if (
+                        video.getDescricao() != null &&
+                        video.getDescricao().length() > 0 &&
+                        !video.getDescricao().equals(record.getDescricao())
+                    ) {
                         record.setDescricao(video.getDescricao());
                     }
 
-                    if (!(video.getUrl().isEmpty() || video.getUrl() == record.getUrl())) {
+                    if (
+                        video.getUrl() != null &&
+                        video.getUrl().length() > 0 &&
+                        !video.getUrl().equals(record.getUrl())
+                    ) {
                         record.setUrl(video.getUrl());
                     }
 
                     Video updatedVideo = repository.save(record);
-
+                    updatedVideo.setUpdated_at(Timestamp.valueOf(LocalDateTime.now()));
+                    
                     return ResponseEntity.ok().body(updatedVideo);
                 })
                 .orElse(ResponseEntity.notFound().build());
@@ -95,7 +113,7 @@ public class VideoController {
                 .map(record -> {
                     repository.deleteById(id);
 
-                    return ResponseEntity.ok().build();
+                    return ResponseEntity.ok().body("Video \"" + record.getTitulo() + "\" deletado");
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
