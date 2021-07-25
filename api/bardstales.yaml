@@ -150,7 +150,7 @@ components:
       minimum: 0
     DateTime:
       type: string
-      format: date
+      format: date-time
 
 security:
   - BasicAuth: []
