@@ -1,11 +1,15 @@
 package br.com.bardourbano.bardstales.model;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +24,7 @@ import org.hibernate.annotations.Where;
 @Data
 @Entity
 @Table(name = "videos")
-@SQLDelete(sql = "UPDATE video SET deleted_at = NOW() WHERE id = ?")
+@SQLDelete(sql = "UPDATE videos SET deleted_at = NOW() WHERE id = ?")
 @Where(clause = "deleted_at IS NULL")
 public class Video {
 
@@ -31,5 +35,13 @@ public class Video {
     private String titulo;
     private String descricao;
     private String url;
-    private Timestamp deleted_at = null;
+
+    @Column(insertable = false, updatable = false)
+    @Setter(AccessLevel.NONE)
+    private Timestamp created_at = Timestamp.valueOf(LocalDateTime.now());
+
+    @Column(insertable = false, updatable = false)
+    private Timestamp updated_at;
+
+    private Timestamp deleted_at;
 }
