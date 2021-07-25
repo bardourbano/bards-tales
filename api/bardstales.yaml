@@ -143,8 +143,10 @@ components:
           $ref: "#/components/schemas/DateTime"
         updated_at:
           $ref: '#/components/schemas/DateTime'
+          nullable: true
         deleted_at:
           $ref: '#/components/schemas/DateTime'
+          nullable: true
     ID:
       type: integer
       minimum: 0
