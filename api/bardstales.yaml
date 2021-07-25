@@ -1,0 +1,157 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: bard's tales
+servers:
+  - url: 'https://localhost:8000'
+paths:
+    /videos:
+        get:
+            summary: 'Video Endpoint: Return all videos in the plataform.'
+            responses:
+                "200":
+                    description: Video list retrieved.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Video'
+        post:
+            summary: 'Video Store Endpoint: Save a video to the plataform'
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Video'
+            responses:
+                "201":
+                    description: Video created and stored.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Video'
+                "400":
+                    description: Missing parameter.
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /videos/{id}:
+        parameters:
+            -   name: id
+                in: path
+                required: true
+                schema: 
+                    type: integer
+                    minimum: 1
+        get:
+            summary: 'Video Endpoint: Return the requested video.'
+            responses:
+                "200":
+                    description: Details from the required video.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Video'
+                "404":
+                    description: Video not found.
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+        put:
+            summary: 'Video Update Endpoint: Update a video.'
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Video'
+            responses:
+                "200":
+                    description: Video updated.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Video'
+                "400":
+                    description: Missing parameter.
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+        patch:
+            summary: 'Video Update Endpoint: Update a video.'
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Video'
+            responses:
+                "200":
+                    description: Video updated.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Video'
+                "400":
+                    description: Missing parameter.
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+        delete:
+            summary: 'Video delete Enpoint: Deletes a video'
+            responses:
+                "200":
+                    description: Video deleted.
+                "404":
+                    description: Video not found.
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                "400":
+                    description: Was not possible to delete de video.
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+components:
+  schemas:
+    Video:
+      type: object
+      required:
+        - titulo
+        - url
+      properties:
+        id:
+          $ref: "#/components/schemas/ID"
+        titulo:
+          type: string
+          minLength: 1
+          maxLength: 30
+        descricao:
+          type: string
+          minLength: 1
+          maxLength: 255
+        url:
+          type: string
+          minLength: 1
+          maxLength: 255
+        created_at:
+          $ref: "#/components/schemas/DateTime"
+        updated_at:
+          $ref: '#/components/schemas/DateTime'
+        deleted_at:
+          $ref: '#/components/schemas/DateTime'
+    ID:
+      type: integer
+      minimum: 0
+    DateTime:
+      type: string
+      format: date-time
+      nullable: true
+
+security:
+  - BasicAuth: []
