@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.bardourbano.bardstales.exception.VideoNotFoundException;
 import br.com.bardourbano.bardstales.model.Video;
 import br.com.bardourbano.bardstales.repository.VideoRepository;
 
@@ -37,10 +39,9 @@ public class VideoController {
     }
 
     @GetMapping(path = {"/{id}"})
-    public ResponseEntity<Video> show(@PathVariable long id) {
-        return repository.findById(id)
-                .map(record -> ResponseEntity.ok().body(record))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Video> show(@PathVariable long id) throws VideoNotFoundException {
+        Video video = repository.findById(id).orElseThrow(() -> new VideoNotFoundException(id));
+        return ResponseEntity.ok(video);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -101,7 +102,7 @@ public class VideoController {
 
                     Video updatedVideo = repository.save(record);
                     updatedVideo.setUpdated_at(Timestamp.valueOf(LocalDateTime.now()));
-                    
+
                     return ResponseEntity.ok().body(updatedVideo);
                 })
                 .orElse(ResponseEntity.notFound().build());
