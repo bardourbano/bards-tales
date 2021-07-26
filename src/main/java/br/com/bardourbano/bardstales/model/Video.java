@@ -19,6 +19,7 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.URL;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,6 +41,7 @@ public class Video {
     private String descricao;
 
     @NotBlank(message = "não deve estar em branco")
+    @URL(message = "deve ser uma url")
     private String url;
 
     @Column(insertable = false, updatable = false)

@@ -41,19 +41,19 @@ public class VideoController {
     }
 
     @GetMapping(path = {"/{id}"})
-    public ResponseEntity<Video> show(@PathVariable long id) throws VideoNotFoundException {
+    public ResponseEntity<Video> show(@PathVariable long id) {
         Video video = repository.findById(id).orElseThrow(() -> new VideoNotFoundException(id));
         return ResponseEntity.ok(video);
     }
 
     @PostMapping
     public Video store(@Valid @RequestBody Video video) {
-        video = repository.saveAndFlush(video);
+        video = repository.save(video);
         return repository.findById(video.getId()).get();
     }
 
     @PutMapping(path = {"/{id}"})
-    public ResponseEntity<?> putUpdate(@PathVariable long id, @RequestBody Video video) {
+    public ResponseEntity<?> putUpdate(@PathVariable long id, @Valid @RequestBody Video video) {
         return repository.findById(id)
                 .map(record -> {
                     record.setTitulo(video.getTitulo());
