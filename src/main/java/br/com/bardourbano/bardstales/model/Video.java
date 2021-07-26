@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -32,8 +33,13 @@ public class Video {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "não deve estar em branco")
     private String titulo;
+
+    @NotBlank(message = "não deve estar em branco")
     private String descricao;
+
+    @NotBlank(message = "não deve estar em branco")
     private String url;
 
     @Column(insertable = false, updatable = false)

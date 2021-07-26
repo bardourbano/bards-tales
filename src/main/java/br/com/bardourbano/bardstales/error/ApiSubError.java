@@ -1,17 +1,14 @@
 package br.com.bardourbano.bardstales.error;
 
+import lombok.AllArgsConstructor;
+
 abstract class ApiSubError {
 
 }
 
+@AllArgsConstructor
 class ApiValidationError extends ApiSubError {
-    private String objeto;
-    private String campo;
-    private String valor;
-    private String mensagem;
-
-    public ApiValidationError(String objeto, String mensagem) {
-        this.objeto = objeto;
-        this.mensagem = mensagem;
-    }
+    public String campo;
+    public String mensagem;
+    public Object valorRecebido;
 }

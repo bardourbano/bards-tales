@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping({"/videos"})
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = {"/videos"})
 public class VideoController {
 
     private VideoRepository repository;
@@ -44,19 +46,13 @@ public class VideoController {
         return ResponseEntity.ok(video);
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Video store(@RequestBody Video video) {
+    @PostMapping
+    public Video store(@Valid @RequestBody Video video) {
         video = repository.saveAndFlush(video);
         return repository.findById(video.getId()).get();
     }
 
-    /**
-     * @TODO rever map para caso de parâmetro faltando.
-     * @param id
-     * @param video
-     * @return
-     */
-    @PutMapping(path = {"/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = {"/{id}"})
     public ResponseEntity<?> putUpdate(@PathVariable long id, @RequestBody Video video) {
         return repository.findById(id)
                 .map(record -> {
@@ -69,10 +65,10 @@ public class VideoController {
 
                     return ResponseEntity.ok().body(updatedVideo);
                 })
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new VideoNotFoundException(id));
     }
 
-    @PatchMapping(path = {"/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(path = {"/{id}"})
     public ResponseEntity<?> patchUpdate(@PathVariable long id, @RequestBody Video video) {
         return repository.findById(id)
                 .map(record -> {
@@ -105,7 +101,7 @@ public class VideoController {
 
                     return ResponseEntity.ok().body(updatedVideo);
                 })
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new VideoNotFoundException(id));
     }
 
     @DeleteMapping(path = {"/{id}"})
@@ -116,7 +112,7 @@ public class VideoController {
 
                     return ResponseEntity.ok().body("Video \"" + record.getTitulo() + "\" deletado");
                 })
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new VideoNotFoundException(id));
     }
 
 }
