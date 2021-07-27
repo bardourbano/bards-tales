@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -35,6 +36,7 @@ public class Video {
     private Long id;
 
     @NotBlank(message = "não deve estar em branco")
+    @Size(max = 30, message = "não deve exceder 30 characteres")
     private String titulo;
 
     @NotBlank(message = "não deve estar em branco")
