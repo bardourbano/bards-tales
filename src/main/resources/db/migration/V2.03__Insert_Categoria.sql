@@ -1,0 +1,1 @@
+INSERT INTO categorias VALUES ('LIVRE', 'branco');
