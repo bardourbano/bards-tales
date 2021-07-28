@@ -1,0 +1,2 @@
+INSERT INTO videos(titulo, descricao, url) VALUES('vídeo 1', 'o primeiro vídeo', 'http://video.numero.um');
+INSERT INTO videos(titulo, descricao, url) VALUES('vídeo 2', 'o segundo vídeo', 'http://video.numero.dois');
