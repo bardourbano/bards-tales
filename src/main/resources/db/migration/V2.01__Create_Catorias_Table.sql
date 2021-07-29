@@ -3,6 +3,5 @@ CREATE TABLE IF NOT EXISTS categorias(
     titulo VARCHAR(30) NOT NULL,
     cor VARCHAR(29) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP ON UPDATE NOW(),
-    deketed_at TIMESTAMP
+    updated_at TIMESTAMP ON UPDATE NOW()
 );

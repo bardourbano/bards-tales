@@ -23,7 +23,6 @@ import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.URL;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "videos")
@@ -31,18 +30,23 @@ import org.hibernate.validator.constraints.URL;
 @Where(clause = "deleted_at IS NULL")
 public class Video {
 
+    /**
+     *
+     */
+    private static final String CAMPO_OBRIGATÓRIO = "campo obrigatório, não deve estar em branco";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "não deve estar em branco")
+    @NotBlank(message = CAMPO_OBRIGATÓRIO)
     @Size(max = 30, message = "não deve exceder 30 characteres")
     private String titulo;
 
-    @NotBlank(message = "não deve estar em branco")
+    @NotBlank(message = CAMPO_OBRIGATÓRIO)
     private String descricao;
 
-    @NotBlank(message = "não deve estar em branco")
+    @NotBlank(message = CAMPO_OBRIGATÓRIO)
     @URL(message = "deve ser uma url")
     private String url;
 
@@ -51,7 +55,10 @@ public class Video {
     private Timestamp created_at = Timestamp.valueOf(LocalDateTime.now());
 
     @Column(insertable = false, updatable = false)
+    @Setter(AccessLevel.NONE)
     private Timestamp updated_at;
 
+    @Column(insertable = false, updatable = false)
+    @Setter(AccessLevel.NONE)
     private Timestamp deleted_at;
 }

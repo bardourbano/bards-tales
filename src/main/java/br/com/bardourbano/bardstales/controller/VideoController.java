@@ -110,7 +110,7 @@ public class VideoController {
                 .map(record -> {
                     repository.deleteById(id);
 
-                    return ResponseEntity.ok().body("Video \"" + record.getTitulo() + "\" deletado");
+                    return ResponseEntity.ok().body("Categoria \"" + record.getTitulo() + "\" deletada");
                 })
                 .orElseThrow(() -> new VideoNotFoundException(id));
     }
