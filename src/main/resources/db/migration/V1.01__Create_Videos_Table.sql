@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS videos(
     url VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP ON UPDATE NOW(),
-    deketed_at TIMESTAMP
+    deleted_at TIMESTAMP
 );
