@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -110,7 +109,7 @@ public class VideoController {
                 .map(record -> {
                     repository.deleteById(id);
 
-                    return ResponseEntity.ok().body("Categoria \"" + record.getTitulo() + "\" deletada");
+                    return ResponseEntity.ok().body("Video \"" + record.getTitulo() + "\" deletado");
                 })
                 .orElseThrow(() -> new VideoNotFoundException(id));
     }

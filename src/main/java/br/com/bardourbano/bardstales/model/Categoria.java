@@ -14,9 +14,11 @@ import javax.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "categorias")
@@ -40,6 +42,5 @@ public class Categoria {
     private Timestamp created_at;
 
     @Column(insertable = false, updatable = false)
-    @Setter(AccessLevel.NONE)
     private Timestamp updated_at;
 }

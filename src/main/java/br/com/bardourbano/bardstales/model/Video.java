@@ -23,6 +23,7 @@ import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.URL;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "videos")
@@ -55,7 +56,6 @@ public class Video {
     private Timestamp created_at = Timestamp.valueOf(LocalDateTime.now());
 
     @Column(insertable = false, updatable = false)
-    @Setter(AccessLevel.NONE)
     private Timestamp updated_at;
 
     @Column(insertable = false, updatable = false)

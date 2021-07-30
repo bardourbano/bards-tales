@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,7 +22,7 @@ import br.com.bardourbano.bardstales.model.Categoria;
 import br.com.bardourbano.bardstales.repository.CategoriaRepository;
 
 @RestController
-@RequestMapping(path = {"/categoria"})
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = {"/categorias"})
 public class CategoriaController {
 
     private CategoriaRepository repository;
