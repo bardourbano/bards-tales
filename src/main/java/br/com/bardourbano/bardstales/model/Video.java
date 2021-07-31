@@ -40,6 +40,9 @@ public class Video {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter(AccessLevel.NONE)
+    private Long categoria_id;
+
     @NotBlank(message = CAMPO_OBRIGATÓRIO)
     @Size(max = 30, message = "não deve exceder 30 characteres")
     private String titulo;
